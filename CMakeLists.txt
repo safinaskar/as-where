@@ -1,3 +1,3 @@
-cmake_minimum_required (VERSION 3.0.2)
+cmake_minimum_required (VERSION 3.0.2) # 3.0.2 подходит
 project (as-where LANGUAGES)
-install (PROGRAMS as-where DESTINATION bin)
+install (FILES as-where DESTINATION bin)

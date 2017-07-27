@@ -1,7 +1,7 @@
 PACKAGE='safinaskar/as-where'
 ARCH='all'
 
-DEPENDS='prog:bash:bash prog:grep:grep safinaskar/as-readlink prog:dpkg:dpkg prog:readlink:coreutils'
+DEPENDS='prog:bash:bash prog:grep:grep safinaskar/as-readlink prog:dpkg:dpkg prog:readlink:coreutils safinaskar/tpm'
 BUILD_DEPENDS='prog:cmake:cmake prog:make:make'
 LIBS=''
 INSTALL='[ -e CMakeCache.txt ] && echo "Failed: CMakeCache.txt" && exit 1;'\

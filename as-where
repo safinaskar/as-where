@@ -6,9 +6,19 @@ where(){
 	(
 		set -e
 
+		eval "$(tpm shlib)"
+
 		[ $# != 1 ] && echo "Usage: where COMMAND" >&2 && return 1
 
 		COMMAND="$1"
+
+		echo "Command: $COMMAND"
+
+		ESSENTIAL=false
+
+		for I in $TPM_AVAILABLE_BINARIES $TPM_AVAILABLE_COMMANDS; do
+			[ "$I" = "$COMMAND" ] && ESSENTIAL=true && echo "В tpm предполагается доступной"
+		done
 
 		case "$(type -t "$COMMAND" || :)" in
 			alias)
@@ -48,10 +58,13 @@ where(){
 				as-readlink "$(type -p "$COMMAND")"
 				if DPKG="$(dpkg -S "$(readlink -f "$(type -p "$COMMAND")")")"; then
 					printf '%s\n' "Debian package: ${DPKG%:*}"
-					echo "For tpm: prog:$COMMAND:${DPKG%:*}"
+
+					if ! $ESSENTIAL; then
+						echo "For tpm: prog:$COMMAND:${DPKG%:*}"
+					fi
+
 					echo "Try \"$COMMAND --help\", \"man 1 $COMMAND\", \"man 6 $COMMAND\", \"man 8 $COMMAND\", \"aptitude show ${DPKG%:*}\""
 				else
-					dpkg -S "$(readlink -f "$(type -p "$COMMAND")")" || :
 					echo "Try \"$COMMAND --help\""
 				fi
 				;;
